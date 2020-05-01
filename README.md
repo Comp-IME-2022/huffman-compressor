@@ -1,6 +1,6 @@
 # Huffman Compressor
 
-This repository is an implementation of a Huffman Compressor based on [this](youtube.com/watch?v=JsTptu56GM8) video by Tom Scott: 
+This repository is an implementation of a Huffman Compressor based on [this](youtube.com/watch?v=JsTptu56GM8) video by Tom Scott.
 
 ## Usage
 
