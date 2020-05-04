@@ -79,6 +79,11 @@ void Encrypter::buildEncryptTree()
 
 }
 
+void Encrypter::buildMap()
+{
+    buildMap(this->root, "");
+}
+
 void Encrypter::buildMap(EncrypterNode* node, std::string s){
 
     if(node->left==nullptr and node->right==nullptr){
@@ -133,6 +138,11 @@ void Encrypter::getEncryption(std::string outFile){
     savefile.write((char*)&place, sizeof(place));
     
     savefile.close();
+}
+
+void Encrypter::serializeEncryptTree()
+{
+    serializeEncryptTree(this->root);
 }
 
 void Encrypter::serializeEncryptTree(EncrypterNode* node)

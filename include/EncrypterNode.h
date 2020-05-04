@@ -1,26 +1,27 @@
 class EncrypterNode{
+
 public:
-	int freq;
-	char c;
-	EncrypterNode* left;
-	EncrypterNode* right;
-
 	
+	int freq;
+	
+	char c;
 
-		EncrypterNode();
+	EncrypterNode *left, *right;
 
-		EncrypterNode(char c, int freq);
+	EncrypterNode();
 
-		EncrypterNode(EncrypterNode left, EncrypterNode right);
-		
-		EncrypterNode* getLeft();
+	EncrypterNode(char c, int freq);
 
-		void setLeft(EncrypterNode* left);
+	EncrypterNode(EncrypterNode left, EncrypterNode right);
+	
+	EncrypterNode* getLeft();
 
-		EncrypterNode* getRight();
+	void setLeft(EncrypterNode* left);
 
-		void setRight(EncrypterNode* right);
+	EncrypterNode* getRight();
 
-		EncrypterNode* operator +(EncrypterNode x);
+	void setRight(EncrypterNode* right);
+
+	EncrypterNode* operator +(EncrypterNode x);
 
 };

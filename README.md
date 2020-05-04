@@ -4,13 +4,29 @@ This repository is an implementation of a Huffman Compressor based on [this](you
 
 ## Usage
 
-Run the command `make` in the project directory to compile the encrypter, it will create an executable called Encrypter at `/bin` which can be used with 1 to 3 parameters:
+To build the encrypter and decrypter executables:
 
-- If 1 parameter is passed, then it compresses this file to output.bin and stores the Huffman tree at treeStore.txt
+```
+make -f MakefileEncrypter
+make -f MakefileDecrypter
+```
+This commands will create 2 executables in the `/bin` folder.
 
-- If 2 parameters are passed, then it compresses the first file into the second one and stores the tree at treeStore.txt
+The usage of the `Encrypter`is as follows:
 
-- If 3 parameters are passed, then it compresses the first file into the second one and stores the three at the third
+- If 1 parameter is passed, then it compresses this file to output.bin and stores the Huffman tree at treeStore.txt;
 
+- Else if 2 parameters are passed, then it compresses the first file into the second one and stores the tree at treeFile.txt;
 
+- Else if 3 parameters are passed, then it compresses the first file into the second one and stores the three at the third;
+
+- Else raises error.
+
+The `Decrypter` can be used with 2 to 3 parameters:
+
+- If 2 parameters are passed, then it decompresses the first file using the second one as the tree file and writes the output to decompressed.txt;
+
+- Else if 3 parameters are passed, then it decompressed the first file using the second one as the tree file and writes the output to the third file;
+
+- Else raises error.
 

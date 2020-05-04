@@ -16,6 +16,13 @@ bool file_exists(char *name){
 
 bool errorHandler(int argc, char *argv[], std::string &outFile, std::string &treeFile)
 {
+
+	if(argc>4)
+	{
+		std::cout << "More than 3 files passed" << std::endl;
+		return 1;
+	}
+	
 	if(argc==1)
 	{
 		std::cout << "No file passed!" << std::endl;
@@ -62,7 +69,7 @@ bool errorHandler(int argc, char *argv[], std::string &outFile, std::string &tre
 
 int main(int argc, char *argv[]){
 
-	std::string outFile= "output.bin", treeFile = "treeStore.txt";
+	std::string outFile = "output.bin", treeFile = "treeFile.txt";
 	
 	if(errorHandler(argc, argv, outFile, treeFile))
 	{
@@ -75,11 +82,11 @@ int main(int argc, char *argv[]){
 	enc->buildFreqSet();
 	enc->buildEncryptTree();
 
-	enc->buildMap(enc->root, "");
+	enc->buildMap();
 
 	enc->getEncryption(outFile);
 
-	enc->serializeEncryptTree(enc->root);
+	enc->serializeEncryptTree();
 
 	free(enc);
 	

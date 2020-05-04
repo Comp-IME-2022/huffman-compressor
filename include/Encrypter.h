@@ -3,14 +3,18 @@
 #include <queue>
 #include "EncrypterNode.h"
 
-class Encrypter{
-public:
+class Encrypter
+{
+
 	FILE *inputFile, *treeFile;
 
 	std::priority_queue<EncrypterNode> freqQueue;
+	
 	std::map<char, std::string> charToEncr;
 
 	EncrypterNode *root;
+
+public:
 
 	Encrypter(std::string fileName, std::string treeName);
 
@@ -20,11 +24,15 @@ public:
 
 	void buildEncryptTree();
 
+	void buildMap();
+
 	void buildMap(EncrypterNode* node, std::string s);
 	
 	std::string getEncryption(char value);
 
 	void getEncryption(std::string outFile);
+
+	void serializeEncryptTree();
 
 	void serializeEncryptTree(EncrypterNode* node);
 
