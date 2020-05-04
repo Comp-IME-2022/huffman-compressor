@@ -20,6 +20,11 @@ Decrypter::~Decrypter()
 	fclose(this->treeFile);
 }
 
+void Decrypter::deserializeEncryptTree()
+{
+	deserializeEncryptTree(this->root);
+}
+
 void Decrypter::deserializeEncryptTree(EncrypterNode *&node)
 {
 	int val;
@@ -36,8 +41,11 @@ void Decrypter::deserializeEncryptTree(EncrypterNode *&node)
 }
 
 
-std::string Decrypter::Decode()
+void Decrypter::decode(std::string outName)
 {
+
+	std::ofstream outFile(outName.c_str(), std::ios_base::out);
+
 	int val, carry;
 	std::vector<int> v;
 
@@ -73,7 +81,13 @@ std::string Decrypter::Decode()
 				if(node->right==nullptr)
 				{
 					std::cerr << "Error while decoding!" << std::endl;
-					return "Error";
+					s = "Error";
+
+					outFile << s;
+
+					outFile.close();
+
+					return;
 				}
 
 				node = node->right;
@@ -85,7 +99,13 @@ std::string Decrypter::Decode()
 				if(node->left==nullptr)
 				{
 					std::cerr << "Error while decoding!" << std::endl;
-					return "Error";
+					s = "Error";
+
+					outFile << s;
+
+					outFile.close();
+					
+					return;
 				}
 
 				node = node->left;
@@ -99,5 +119,7 @@ std::string Decrypter::Decode()
 		}
 	}
 
-	return s;
+	outFile << s;
+
+	outFile.close();
 }
