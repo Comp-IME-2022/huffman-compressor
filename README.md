@@ -4,7 +4,7 @@ This repository is an implementation of a Huffman Compressor based on [this](you
 
 ## Usage
 
-Run the command `make` in the project directory to compile the encrypter, it will create an executable called Encrypter at `/bin` which can be used with 1 to 3 parameters:
+Run the command `make` using the `-f` flag to specify which makefile to build (MakefileEncrypter or MakefileDecrypter) in the project directory to compile either the encrypter or the decrypter, it will create executables called Encrypter and Decrypter at `/bin`. The Ecnrypter can be used with 1 to 3 parameters:
 
 - If 1 parameter is passed, then it compresses this file to output.bin and stores the Huffman tree at treeStore.txt
 
