@@ -11,7 +11,7 @@
 
 bool file_exists(char *name){
     std::ifstream f(name);
-	return f.good();	
+	return f.good() and !(f.peek()==std::ifstream::traits_type::eof());	
 }
 
 bool errorHandler(int argc, char *argv[], std::string &outFile, std::string &treeFile)
@@ -29,9 +29,9 @@ bool errorHandler(int argc, char *argv[], std::string &outFile, std::string &tre
 		return 1;
 	}
 
-	else if(not file_exists(argv[0]))
+	else if(not file_exists(argv[1]))
 	{
-		std::cout << "Input file doesn't exists" << std::endl;
+		std::cout << "Input file doesn't exists or is empty" << std::endl;
 		return 1; 
 	}
 
