@@ -3,10 +3,8 @@
 class Decrypter
 {
 	//File where the huffman tree is stored
-	FILE *treeFile;
-
 	//Binary file compressed by the encrypter
-	std::ifstream *inputFile;
+	std::ifstream *inputFile, *treeFile;
 
 	//Root of the huffman tree
 	EncrypterNode *root;

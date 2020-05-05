@@ -6,7 +6,8 @@
 class Encrypter
 {
 
-	FILE *inputFile, *treeFile;
+	std::ifstream *inputFile;
+	std::ofstream *treeFile;
 
 	std::priority_queue<EncrypterNode> freqQueue;
 	

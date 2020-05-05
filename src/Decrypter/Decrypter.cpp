@@ -10,14 +10,17 @@
 Decrypter::Decrypter(std::string fileName, std::string treeName)
 {
 	this->inputFile = new std::ifstream(fileName.c_str(), std::ios_base::binary);
-    this->treeFile = fopen(treeName.c_str(), "r");
+    this->treeFile = new std::ifstream(treeName.c_str(), std::ios_base::in);
     this->root = nullptr;
 }
 
 Decrypter::~Decrypter()
 {
-	free(this->inputFile);
-	fclose(this->treeFile);
+	(*this->inputFile).close();
+	(*this->treeFile).close();
+	
+	delete this->inputFile;
+	delete this->treeFile;
 }
 
 void Decrypter::deserializeEncryptTree()
@@ -29,7 +32,9 @@ void Decrypter::deserializeEncryptTree(EncrypterNode *&node)
 {
 	int val;
 
-	if(!fscanf(this->treeFile, "%d ", &val) || val==MARKER)
+	(*this->treeFile) >> val;
+
+	if((*this->treeFile).eof() || val==MARKER)
 	{
 		return;
 	}

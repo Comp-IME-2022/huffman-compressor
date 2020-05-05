@@ -81,5 +81,7 @@ int main(int argc, char *argv[])
 
 	dec->decode(outName);
 
+	delete dec;
+
 	return 0;
 }

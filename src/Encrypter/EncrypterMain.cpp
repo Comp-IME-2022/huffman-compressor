@@ -88,7 +88,7 @@ int main(int argc, char *argv[]){
 
 	enc->serializeEncryptTree();
 
-	free(enc);
+	delete enc;
 	
 	return 0;
 }

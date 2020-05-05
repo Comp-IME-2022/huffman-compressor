@@ -8,14 +8,17 @@
 
 Encrypter::Encrypter(std::string inputName, std::string treeName)
 {
-    this->inputFile = fopen(inputName.c_str(), "r");
-    this->treeFile = fopen(treeName.c_str(), "w");
+    this->inputFile = new std::ifstream(inputName.c_str(), std::ios_base::in);
+    this->treeFile = new std::ofstream(treeName.c_str(), std::ios_base::out);
 }
 
 Encrypter::~Encrypter()
 {
-    fclose(this->inputFile);
-    fclose(this->treeFile);
+    (*this->inputFile).close();
+    (*this->treeFile).close();
+
+    delete this->inputFile;
+    delete this->treeFile;
 }
 
 void Encrypter::buildFreqSet()
@@ -28,12 +31,12 @@ void Encrypter::buildFreqSet()
     while(true)
     {
 
-        c = getc(this->inputFile);
-
-        if(c==EOF){
+        (*this->inputFile) >> c;
+     
+        if((*this->inputFile).eof()){
             break;
         }
-        
+
         if(freqMap.find(c) == freqMap.end())
         {
             freqMap[c] = 1;
@@ -102,7 +105,8 @@ std::string Encrypter::getEncryption(char value){
 
 void Encrypter::getEncryption(std::string outFile){
 
-    rewind(this->inputFile);
+    (*this->inputFile).clear();
+    (*this->inputFile).seekg(0);
     
     std::ofstream savefile(outFile, std::ios_base::binary);
 
@@ -114,9 +118,9 @@ void Encrypter::getEncryption(std::string outFile){
     while(true)
     {
 
-        c = getc(this->inputFile);
+        (*this->inputFile) >> c;
 
-        if(c==EOF){
+        if((*this->inputFile).eof()){
             break;
         }
 
@@ -150,11 +154,13 @@ void Encrypter::serializeEncryptTree(EncrypterNode* node)
 
     if(node == nullptr)
     {
-        fprintf(this->treeFile, "%d ", MARKER);
+        (*this->treeFile) << MARKER;
+        (*this->treeFile) << " ";
         return;
     }
 
-    fprintf(this->treeFile, "%d ", (int)node->c);
+    (*this->treeFile) <<  (int)node->c;
+    (*this->treeFile) << " ";
     serializeEncryptTree(node->left);
     serializeEncryptTree(node->right);
 }
