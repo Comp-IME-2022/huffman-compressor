@@ -9,6 +9,8 @@
 Encrypter::Encrypter(std::string inputName, std::string treeName)
 {
     this->inputFile = new std::ifstream(inputName.c_str(), std::ios_base::in);
+    std::noskipws(*this->inputFile);
+    
     this->treeFile = new std::ofstream(treeName.c_str(), std::ios_base::out);
 }
 

@@ -10,6 +10,7 @@
 Decrypter::Decrypter(std::string fileName, std::string treeName)
 {
 	this->inputFile = new std::ifstream(fileName.c_str(), std::ios_base::binary);
+	
     this->treeFile = new std::ifstream(treeName.c_str(), std::ios_base::in);
     this->root = nullptr;
 }
@@ -50,7 +51,7 @@ void Decrypter::decode(std::string outName)
 {
 
 	std::ofstream outFile(outName.c_str(), std::ios_base::out);
-
+	
 	int val, carry;
 	std::vector<int> v;
 
