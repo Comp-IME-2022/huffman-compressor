@@ -1,4 +1,4 @@
-#include <map>
+#include <unordered_map>
 #include <set>
 #include <queue>
 #include "EncrypterNode.h"
@@ -11,7 +11,7 @@ class Encrypter
 
 	std::priority_queue<EncrypterNode> freqQueue;
 	
-	std::map<char, std::string> charToEncr;
+	std::unordered_map<char, std::string> charToEncr;
 
 	EncrypterNode *root;
 
