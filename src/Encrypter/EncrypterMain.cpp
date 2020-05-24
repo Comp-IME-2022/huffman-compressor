@@ -69,7 +69,7 @@ bool errorHandler(int argc, char *argv[], std::string &outFile, std::string &tre
 
 int main(int argc, char *argv[]){
 
-	std::string outFile = "output.bin", treeFile = "treeFile.txt";
+    std::string outFile = "output.bin", treeFile = "treeFile.txt";
 	
 	if(errorHandler(argc, argv, outFile, treeFile))
 	{
@@ -89,6 +89,6 @@ int main(int argc, char *argv[]){
 	enc->serializeEncryptTree();
 
 	delete enc;
-	
+
 	return 0;
 }

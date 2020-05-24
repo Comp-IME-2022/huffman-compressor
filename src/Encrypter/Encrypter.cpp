@@ -1,6 +1,5 @@
 #include <fstream>
 #include <iostream>
-#include <map>
 #include <string>
 #define MARKER -1
 
@@ -10,7 +9,11 @@ Encrypter::Encrypter(std::string inputName, std::string treeName)
 {
     this->inputFile = new std::ifstream(inputName.c_str(), std::ios_base::in);
     std::noskipws(*this->inputFile);
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> dev
     this->treeFile = new std::ofstream(treeName.c_str(), std::ios_base::out);
 }
 
@@ -27,8 +30,10 @@ void Encrypter::buildFreqSet()
 {
 
     char c;
-    std::map<char, int> freqMap;
-    std::map<char, int>::iterator mapItr;
+    std::unordered_map<char, int> freqMap;
+    std::unordered_map<char, int>::iterator mapItr;
+
+    
 
     while(true)
     {
@@ -113,8 +118,6 @@ void Encrypter::getEncryption(std::string outFile){
     std::ofstream savefile(outFile, std::ios_base::binary);
 
     char c;
-    std::map<char, int> freqMap;
-    std::map<char, int>::iterator mapItr;
 
     uint8_t carry=0, place = 0;
     while(true)

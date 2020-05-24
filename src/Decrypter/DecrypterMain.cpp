@@ -1,3 +1,4 @@
+#include <chrono>
 #include <fstream>
 #include <iostream>
 
@@ -67,7 +68,6 @@ bool errorHandler(int argc, char *argv[], std::string& inputFile,std::string& tr
 
 int main(int argc, char *argv[])
 {
-
 	std::string inputFile, treeFile, outName;
 
 	if(errorHandler(argc, argv, inputFile, treeFile, outName))
