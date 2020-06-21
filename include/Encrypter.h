@@ -1,40 +1,37 @@
-#include <unordered_map>
-#include <set>
 #include <queue>
+#include <set>
+#include <unordered_map>
+
 #include "EncrypterNode.h"
 
-class Encrypter
-{
+class Encrypter {
+  std::ifstream *inputFile;
+  std::ofstream *treeFile;
 
-	std::ifstream *inputFile;
-	std::ofstream *treeFile;
+  std::priority_queue<EncrypterNode> freqQueue;
 
-	std::priority_queue<EncrypterNode> freqQueue;
-	
-	std::unordered_map<char, std::string> charToEncr;
+  std::unordered_map<char, std::string> charToEncr;
 
-	EncrypterNode *root;
+  EncrypterNode *root;
 
-public:
+ public:
+  Encrypter(std::string fileName, std::string treeName);
 
-	Encrypter(std::string fileName, std::string treeName);
+  ~Encrypter();
 
-	~Encrypter();
+  void buildFreqSet();
 
-	void buildFreqSet();
+  void buildEncryptTree();
 
-	void buildEncryptTree();
+  void buildMap();
 
-	void buildMap();
+  void buildMap(EncrypterNode *node, std::string s);
 
-	void buildMap(EncrypterNode* node, std::string s);
-	
-	std::string getEncryption(char value);
+  std::string getEncryption(char value);
 
-	void getEncryption(std::string outFile);
+  void getEncryption(std::string outFile);
 
-	void serializeEncryptTree();
+  void serializeEncryptTree();
 
-	void serializeEncryptTree(EncrypterNode* node);
-
+  void serializeEncryptTree(EncrypterNode *node);
 };
