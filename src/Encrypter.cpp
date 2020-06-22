@@ -24,13 +24,7 @@ void Encrypter::buildFreqSet() {
   std::unordered_map<char, int> freqMap;
   std::unordered_map<char, int>::iterator mapItr;
 
-  while (true) {
-    (*this->inputFile) >> c;
-
-    if ((*this->inputFile).eof()) {
-      break;
-    }
-
+  while ((*this->inputFile) >> c) {
     if (freqMap.find(c) == freqMap.end()) {
       freqMap[c] = 1;
     } else {
@@ -91,13 +85,7 @@ void Encrypter::getEncryption(std::string outFile) {
   char c;
 
   uint8_t carry = 0, place = 0;
-  while (true) {
-    (*this->inputFile) >> c;
-
-    if ((*this->inputFile).eof()) {
-      break;
-    }
-
+  while ((*this->inputFile) >> c) {
     for (char e : this->getEncryption(c)) {
       if (place == 8) {
         savefile.write((char*)&carry, sizeof(carry));
