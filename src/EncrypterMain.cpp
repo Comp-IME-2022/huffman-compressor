@@ -65,7 +65,9 @@ int main(int argc, char *argv[]) {
     return 0;
   }
 
-  Encrypter *enc = new Encrypter(argv[1], treeFile);
+  std::ofstream tree(treeFile);
+
+  Encrypter *enc = new Encrypter(argv[1]);
 
   enc->buildFreqSet();
   enc->buildEncryptTree();
@@ -74,7 +76,7 @@ int main(int argc, char *argv[]) {
 
   enc->getEncryption(outFile);
 
-  enc->serializeEncryptTree();
+  enc->serializeEncryptTree(tree);
 
   delete enc;
 

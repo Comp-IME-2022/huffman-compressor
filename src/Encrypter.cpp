@@ -1,40 +1,36 @@
+#include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <iterator>
 #include <string>
 #define MARKER -1
 
 #include "Encrypter.h"
 
-Encrypter::Encrypter(std::string inputName, std::string treeName) {
+Encrypter::Encrypter(std::string inputName) {
   this->inputFile = new std::ifstream(inputName.c_str(), std::ios_base::in);
   std::noskipws(*this->inputFile);
-  this->treeFile = new std::ofstream(treeName.c_str(), std::ios_base::out);
 }
 
 Encrypter::~Encrypter() {
   (*this->inputFile).close();
-  (*this->treeFile).close();
 
   delete this->inputFile;
-  delete this->treeFile;
 }
 
 void Encrypter::buildFreqSet() {
-  char c;
   std::unordered_map<char, int> freqMap;
-  std::unordered_map<char, int>::iterator mapItr;
 
-  while ((*this->inputFile) >> c) {
-    if (freqMap.find(c) == freqMap.end()) {
-      freqMap[c] = 1;
-    } else {
-      freqMap[c]++;
-    }
-  }
+  std::string inputContent{std::istreambuf_iterator<char>{*this->inputFile},
+                           {}};
 
-  for (mapItr = freqMap.begin(); mapItr != freqMap.end(); mapItr++) {
-    this->freqQueue.push(EncrypterNode(mapItr->first, mapItr->second));
-  }
+  std::for_each(inputContent.begin(), inputContent.end(), [&freqMap](char c) {
+    freqMap.find(c) == freqMap.end() ? freqMap[c] = 1 : freqMap[c]++;
+  });
+
+  std::for_each(freqMap.begin(), freqMap.end(), [this](auto x) {
+    this->freqQueue.push(EncrypterNode(x.first, x.second));
+  });
 }
 
 bool operator<(const EncrypterNode& x, const EncrypterNode& y) {
@@ -97,23 +93,26 @@ void Encrypter::getEncryption(std::string outFile) {
     }
   }
 
-  savefile.write((char*)&carry, sizeof(carry));
-  savefile.write((char*)&place, sizeof(place));
+  savefile << carry;
+  savefile << place;
 
   savefile.close();
 }
 
-void Encrypter::serializeEncryptTree() { serializeEncryptTree(this->root); }
+void Encrypter::serializeEncryptTree(std::ofstream& oFile) {
+  serializeEncryptTree(oFile, this->root);
+}
 
-void Encrypter::serializeEncryptTree(EncrypterNode* node) {
+void Encrypter::serializeEncryptTree(std::ofstream& oFile,
+                                     EncrypterNode* node) {
   if (node == nullptr) {
-    (*this->treeFile) << MARKER;
-    (*this->treeFile) << " ";
+    oFile << MARKER;
+    oFile << " ";
     return;
   }
 
-  (*this->treeFile) << (int)node->c;
-  (*this->treeFile) << " ";
-  serializeEncryptTree(node->left);
-  serializeEncryptTree(node->right);
+  oFile << (int)node->c;
+  oFile << " ";
+  serializeEncryptTree(oFile, node->left);
+  serializeEncryptTree(oFile, node->right);
 }

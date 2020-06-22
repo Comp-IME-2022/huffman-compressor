@@ -1,6 +1,7 @@
 CC := g++ # This is the main compiler
 SRCDIR := src
 INCDIR := include
+CFLAGS := -Wall
 BUILDDIR := build
 TARGETENC := bin/Encrypter
 TARGETDEC := bin/Decrypter
@@ -19,11 +20,11 @@ format:
 .PHONY: encrypter
 encrypter: $(SOURCESENC)
 	mkdir -p bin
-	$(CC) -o $(TARGETENC) $(SOURCESENC) -I$(INCDIR)
+	$(CC) -o $(TARGETENC) $(SOURCESENC) -I$(INCDIR) $(CFLAGS)
 
 .PHONY: decrypter
 decrypter: $(SOURCESDEC)
 	mkdir -p bin
-	$(CC) -o $(TARGETDEC) $(SOURCESDEC) -I$(INCDIR)
+	$(CC) -o $(TARGETDEC) $(SOURCESDEC) -I$(INCDIR) $(CFLAGS)
 
 

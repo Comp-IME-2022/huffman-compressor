@@ -6,7 +6,6 @@
 
 class Encrypter {
   std::ifstream *inputFile;
-  std::ofstream *treeFile;
 
   std::priority_queue<EncrypterNode> freqQueue;
 
@@ -15,7 +14,7 @@ class Encrypter {
   EncrypterNode *root;
 
  public:
-  Encrypter(std::string fileName, std::string treeName);
+  Encrypter(std::string fileName);
 
   ~Encrypter();
 
@@ -31,7 +30,7 @@ class Encrypter {
 
   void getEncryption(std::string outFile);
 
-  void serializeEncryptTree();
+  void serializeEncryptTree(std::ofstream &);
 
-  void serializeEncryptTree(EncrypterNode *node);
+  void serializeEncryptTree(std::ofstream &, EncrypterNode *node);
 };

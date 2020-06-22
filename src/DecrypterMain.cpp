@@ -64,11 +64,14 @@ int main(int argc, char *argv[]) {
     return 0;
   }
 
-  Decrypter *dec = new Decrypter(inputFile, treeFile);
+  std::ifstream tree(treeFile);
+  std::ofstream outFile(outName);
 
-  dec->deserializeEncryptTree();
+  Decrypter *dec = new Decrypter(inputFile);
 
-  dec->decode(outName);
+  dec->deserializeEncryptTree(tree);
+
+  dec->decode(outFile);
 
   delete dec;
 
