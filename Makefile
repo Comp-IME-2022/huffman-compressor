@@ -11,11 +11,15 @@ SOURCESENC := $(shell find $(SRCDIR) -type f -name Encrypter*.$(SRCEXT))
 SOURCESDEC := $(shell find $(SRCDIR) -type f -name Decrypter*.$(SRCEXT) && echo $(SRCDIR)/"EncrypterNode.cpp")
 
 .PHONY: all
-all: format encrypter decrypter
+all: format test encrypter decrypter
 
 .PHONY: format
 format:	
 	clang-format $(SRCDIR)/* $(INCDIR)/* -i
+
+.PHONY: test
+test:
+	cd test && bash test1.sh && bash test2.sh
 
 .PHONY: encrypter
 encrypter: $(SOURCESENC)

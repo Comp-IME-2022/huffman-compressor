@@ -14,10 +14,9 @@ bool file_exists(char *name) {
   return f.good() and !(f.peek() == std::ifstream::traits_type::eof());
 }
 
-bool errorHandler(int argc, char *argv[], std::string &outFile,
-                  std::string &treeFile) {
-  if (argc > 4) {
-    std::cout << "More than 3 files passed" << std::endl;
+bool errorHandler(int argc, char *argv[], std::string &outFile) {
+  if (argc > 3) {
+    std::cout << "More than 2 files passed" << std::endl;
     return 1;
   }
 
@@ -45,37 +44,24 @@ bool errorHandler(int argc, char *argv[], std::string &outFile,
 
   std::cout << "Writing output to " << outFile << std::endl;
 
-  if (argc <= 3) {
-    std::cout << "Tree file not specified" << std::endl;
-  }
-
-  else {
-    treeFile = argv[3];
-  }
-
-  std::cout << "Writing tree to " << treeFile << std::endl;
-
   return 0;
 }
 
 int main(int argc, char *argv[]) {
-  std::string outFile = "output.bin", treeFile = "treeFile.txt";
+  std::string outFile = "output.bin";
 
-  if (errorHandler(argc, argv, outFile, treeFile)) {
+  if (errorHandler(argc, argv, outFile)) {
     return 0;
   }
 
-  std::ofstream tree(treeFile);
-
+  std::ofstream out(outFile);
   Encrypter *enc = new Encrypter(argv[1]);
 
   enc->buildEncryptTree();
 
   enc->buildMap();
 
-  enc->getEncryption(outFile);
-
-  enc->serializeEncryptTree(tree);
+  enc->writeFile(out);
 
   delete enc;
 

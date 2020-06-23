@@ -6,8 +6,8 @@
 #include <vector>
 
 Decrypter::Decrypter(std::string fileName) {
-  this->inputFile = new std::ifstream(fileName.c_str(), std::ios_base::binary);
-
+  this->inputFile = new std::ifstream(fileName.c_str());
+  std::noskipws(*this->inputFile);
   this->root = nullptr;
 }
 
@@ -17,26 +17,21 @@ Decrypter::~Decrypter() {
   delete this->inputFile;
 }
 
-void Decrypter::deserializeEncryptTree(std::ifstream& iFile) {
-  std::noskipws(iFile);
+void Decrypter::deserializeEncryptTree() { deserializeEncryptTree(this->root); }
 
-  deserializeEncryptTree(iFile, this->root);
-}
-
-void Decrypter::deserializeEncryptTree(std::ifstream& iFile,
-                                       EncrypterNode*& node) {
+void Decrypter::deserializeEncryptTree(EncrypterNode*& node) {
   uint8_t val;
-  iFile >> val;
+  *this->inputFile >> val;
   if (val == '1') {
     uint8_t c;
-    iFile >> c;
+    *this->inputFile >> c;
     node = new EncrypterNode((char)c, 0);
     return;
   } else {
     node = new EncrypterNode('\0', 0);
   }
-  deserializeEncryptTree(iFile, node->left);
-  deserializeEncryptTree(iFile, node->right);
+  deserializeEncryptTree(node->left);
+  deserializeEncryptTree(node->right);
 }
 
 void Decrypter::decode(std::ofstream& outFile) {

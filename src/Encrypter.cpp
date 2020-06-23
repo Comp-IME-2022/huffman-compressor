@@ -66,19 +66,17 @@ std::string Encrypter::getEncryption(char value) {
   return this->charToEncr[value];
 }
 
-void Encrypter::getEncryption(std::string outFile) {
+void Encrypter::serializeCode(std::ofstream& outFile) {
   (*this->inputFile).clear();
   (*this->inputFile).seekg(0);
 
-  std::ofstream savefile(outFile, std::ios_base::binary);
-
   char c;
 
-  uint8_t carry = 0, place = 0;
+  char carry = 0, place = 0;
   while ((*this->inputFile) >> c) {
     for (char e : this->getEncryption(c)) {
       if (place == 8) {
-        savefile << carry;
+        outFile << carry;
         carry = 0;
         place = 0;
       }
@@ -87,10 +85,7 @@ void Encrypter::getEncryption(std::string outFile) {
     }
   }
 
-  savefile << carry;
-  savefile << place;
-
-  savefile.close();
+  outFile << carry << place;
 }
 
 void Encrypter::serializeEncryptTree(std::ofstream& oFile) {
@@ -107,4 +102,9 @@ void Encrypter::serializeEncryptTree(std::ofstream& oFile,
   oFile << 0;
   serializeEncryptTree(oFile, node->left);
   serializeEncryptTree(oFile, node->right);
+}
+
+void Encrypter::writeFile(std::ofstream& outFile) {
+  this->serializeEncryptTree(outFile);
+  this->serializeCode(outFile);
 }

@@ -10,19 +10,14 @@ bool file_exists(char *name) {
 }
 
 bool errorHandler(int argc, char *argv[], std::string &inputFile,
-                  std::string &treeFile, std::string &outName) {
+                  std::string &outName) {
   if (argc == 1) {
     std::cout << "No input file passed" << std::endl;
     return 1;
   }
 
-  else if (argc == 2) {
-    std::cout << "No tree file passed" << std::endl;
-    return 1;
-  }
-
-  else if (argc > 4) {
-    std::cout << "More than 3 files passed" << std::endl;
+  else if (argc > 3) {
+    std::cout << "More than 2 files passed" << std::endl;
     return 1;
   }
 
@@ -32,24 +27,18 @@ bool errorHandler(int argc, char *argv[], std::string &inputFile,
       return 1;
     }
 
-    if (not file_exists(argv[2])) {
-      std::cout << "Tree file doesn't exists or is empty" << std::endl;
-      return 1;
-    }
-
-    if (argc == 3) {
+    if (argc == 2) {
       std::cout << "Output file not specified" << std::endl;
       outName = "decompressed.txt";
     }
 
     else {
-      outName = argv[3];
+      outName = argv[2];
     }
 
     std::cout << "Writing output to " << outName << std::endl;
 
     inputFile = argv[1];
-    treeFile = argv[2];
 
     return 0;
   }
@@ -58,18 +47,17 @@ bool errorHandler(int argc, char *argv[], std::string &inputFile,
 }
 
 int main(int argc, char *argv[]) {
-  std::string inputFile, treeFile, outName;
+  std::string inputFile, outName;
 
-  if (errorHandler(argc, argv, inputFile, treeFile, outName)) {
+  if (errorHandler(argc, argv, inputFile, outName)) {
     return 0;
   }
 
-  std::ifstream tree(treeFile);
   std::ofstream outFile(outName);
 
   Decrypter *dec = new Decrypter(inputFile);
 
-  dec->deserializeEncryptTree(tree);
+  dec->deserializeEncryptTree();
 
   dec->decode(outFile);
 

@@ -13,6 +13,12 @@ class Encrypter {
 
   std::priority_queue<EncrypterNode> buildFreqQueue();
 
+  void serializeCode(std::ofstream &);
+
+  void serializeEncryptTree(std::ofstream &);
+
+  void serializeEncryptTree(std::ofstream &, EncrypterNode *node);
+
  public:
   Encrypter(std::string fileName);
 
@@ -26,9 +32,5 @@ class Encrypter {
 
   std::string getEncryption(char value);
 
-  void getEncryption(std::string outFile);
-
-  void serializeEncryptTree(std::ofstream &);
-
-  void serializeEncryptTree(std::ofstream &, EncrypterNode *node);
+  void writeFile(std::ofstream &);
 };

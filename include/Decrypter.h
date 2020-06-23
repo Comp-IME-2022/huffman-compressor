@@ -17,9 +17,9 @@ class Decrypter {
 
   ~Decrypter();
 
-  void deserializeEncryptTree(std::ifstream &);
+  void deserializeEncryptTree();
 
-  void deserializeEncryptTree(std::ifstream &, EncrypterNode *&);
+  void deserializeEncryptTree(EncrypterNode *&);
 
   void decode(std::ofstream &);
 };
