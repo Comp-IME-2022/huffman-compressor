@@ -1,10 +1,9 @@
+#include "Decrypter.h"
+
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
-#define MARKER -1
-
-#include "Decrypter.h"
 
 Decrypter::Decrypter(std::string fileName) {
   this->inputFile = new std::ifstream(fileName.c_str(), std::ios_base::binary);
@@ -19,21 +18,23 @@ Decrypter::~Decrypter() {
 }
 
 void Decrypter::deserializeEncryptTree(std::ifstream& iFile) {
+  std::noskipws(iFile);
+
   deserializeEncryptTree(iFile, this->root);
 }
 
 void Decrypter::deserializeEncryptTree(std::ifstream& iFile,
                                        EncrypterNode*& node) {
-  int val;
-
+  uint8_t val;
   iFile >> val;
-
-  if (iFile.eof() || val == MARKER) {
+  if (val == '1') {
+    uint8_t c;
+    iFile >> c;
+    node = new EncrypterNode((char)c, 0);
     return;
+  } else {
+    node = new EncrypterNode('\0', 0);
   }
-
-  node = new EncrypterNode((char)val, 0);
-
   deserializeEncryptTree(iFile, node->left);
   deserializeEncryptTree(iFile, node->right);
 }

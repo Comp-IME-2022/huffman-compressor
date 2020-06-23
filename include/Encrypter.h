@@ -7,18 +7,16 @@
 class Encrypter {
   std::ifstream *inputFile;
 
-  std::priority_queue<EncrypterNode> freqQueue;
-
   std::unordered_map<char, std::string> charToEncr;
 
   EncrypterNode *root;
+
+  std::priority_queue<EncrypterNode> buildFreqQueue();
 
  public:
   Encrypter(std::string fileName);
 
   ~Encrypter();
-
-  void buildFreqSet();
 
   void buildEncryptTree();
 

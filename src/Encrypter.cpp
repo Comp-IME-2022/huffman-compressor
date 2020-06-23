@@ -1,11 +1,10 @@
+#include "Encrypter.h"
+
 #include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <iterator>
 #include <string>
-#define MARKER -1
-
-#include "Encrypter.h"
 
 Encrypter::Encrypter(std::string inputName) {
   this->inputFile = new std::ifstream(inputName.c_str(), std::ios_base::in);
@@ -18,8 +17,9 @@ Encrypter::~Encrypter() {
   delete this->inputFile;
 }
 
-void Encrypter::buildFreqSet() {
+std::priority_queue<EncrypterNode> Encrypter::buildFreqQueue() {
   std::unordered_map<char, int> freqMap;
+  std::priority_queue<EncrypterNode> freqQueue;
 
   std::string inputContent{std::istreambuf_iterator<char>{*this->inputFile},
                            {}};
@@ -28,32 +28,26 @@ void Encrypter::buildFreqSet() {
     freqMap.find(c) == freqMap.end() ? freqMap[c] = 1 : freqMap[c]++;
   });
 
-  std::for_each(freqMap.begin(), freqMap.end(), [this](auto x) {
-    this->freqQueue.push(EncrypterNode(x.first, x.second));
+  std::for_each(freqMap.begin(), freqMap.end(), [&freqQueue](auto x) {
+    freqQueue.push(EncrypterNode(x.first, x.second));
   });
-}
 
-bool operator<(const EncrypterNode& x, const EncrypterNode& y) {
-  return x.freq > y.freq;
+  return freqQueue;
 }
 
 void Encrypter::buildEncryptTree() {
-  while (this->freqQueue.size() > 1) {
-    EncrypterNode a = this->freqQueue.top();
-    this->freqQueue.pop();
+  auto freqQueue = this->buildFreqQueue();
 
-    EncrypterNode b = this->freqQueue.top();
-    this->freqQueue.pop();
+  auto top_and_pop = [](std::priority_queue<EncrypterNode>& pq) {
+    auto t = pq.top();
+    pq.pop();
+    return t;
+  };
 
-    EncrypterNode* sum = new EncrypterNode(a, b);
+  while (freqQueue.size() > 1)
+    freqQueue.push(top_and_pop(freqQueue) + top_and_pop(freqQueue));
 
-    this->freqQueue.push(*sum);
-  }
-
-  this->root = new EncrypterNode(*this->freqQueue.top().left,
-                                 *this->freqQueue.top().right);
-  this->root->freq = this->freqQueue.top().freq;
-  this->root->c = this->freqQueue.top().c;
+  this->root = new EncrypterNode(freqQueue.top());
 }
 
 void Encrypter::buildMap() { buildMap(this->root, ""); }
@@ -84,7 +78,7 @@ void Encrypter::getEncryption(std::string outFile) {
   while ((*this->inputFile) >> c) {
     for (char e : this->getEncryption(c)) {
       if (place == 8) {
-        savefile.write((char*)&carry, sizeof(carry));
+        savefile << carry;
         carry = 0;
         place = 0;
       }
@@ -105,14 +99,12 @@ void Encrypter::serializeEncryptTree(std::ofstream& oFile) {
 
 void Encrypter::serializeEncryptTree(std::ofstream& oFile,
                                      EncrypterNode* node) {
-  if (node == nullptr) {
-    oFile << MARKER;
-    oFile << " ";
+  if (node->left == nullptr and node->right == nullptr) {
+    oFile << 1;
+    oFile << (uint8_t)node->c;
     return;
   }
-
-  oFile << (int)node->c;
-  oFile << " ";
+  oFile << 0;
   serializeEncryptTree(oFile, node->left);
   serializeEncryptTree(oFile, node->right);
 }

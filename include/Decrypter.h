@@ -1,3 +1,7 @@
+#include <fstream>
+#include <iostream>
+#include <vector>
+
 #include "EncrypterNode.h"
 
 class Decrypter {

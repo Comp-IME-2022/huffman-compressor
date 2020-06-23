@@ -69,7 +69,6 @@ int main(int argc, char *argv[]) {
 
   Encrypter *enc = new Encrypter(argv[1]);
 
-  enc->buildFreqSet();
   enc->buildEncryptTree();
 
   enc->buildMap();
