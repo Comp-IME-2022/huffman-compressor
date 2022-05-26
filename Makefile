@@ -1,7 +1,7 @@
-CC := g++ # This is the main compiler
+CC := clang++ # This is the main compiler
 SRCDIR := src
 INCDIR := include
-CFLAGS := -Wall
+CFLAGS := -Wall -std=c++14
 BUILDDIR := build
 TARGETENC := bin/Encrypter
 TARGETDEC := bin/Decrypter

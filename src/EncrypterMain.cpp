@@ -63,6 +63,9 @@ int main(int argc, char *argv[]) {
 
   enc->writeFile(out);
 
+  std::cout << "Average code length: " << enc->getAverageCodeLength()
+            << std::endl;
+
   delete enc;
 
   return 0;

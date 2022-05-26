@@ -108,3 +108,19 @@ void Encrypter::writeFile(std::ofstream& outFile) {
   this->serializeEncryptTree(outFile);
   this->serializeCode(outFile);
 }
+
+float Encrypter::getAverageCodeLength() {
+  (*this->inputFile).clear();
+  (*this->inputFile).seekg(0);
+
+  long long int total_chars = 0;
+  long long int total_sum = 0;
+  char c;
+
+  while ((*this->inputFile) >> c) {
+    total_chars++;
+    total_sum += this->getEncryption(c).length();
+  }
+
+  return (float)total_sum / total_chars;
+}

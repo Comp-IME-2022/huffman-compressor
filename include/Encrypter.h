@@ -33,4 +33,6 @@ class Encrypter {
   std::string getEncryption(char value);
 
   void writeFile(std::ofstream &);
+
+  float getAverageCodeLength();
 };
